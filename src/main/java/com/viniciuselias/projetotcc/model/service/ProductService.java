@@ -15,34 +15,35 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
-    private ProductRepository repo;
+    private ProductRepository repository;
 
     public List<Product> findAll() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
-    public Product findById(Long id) {
-        return repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
+    public ProductDTO findById(Long id) {
+        return repository.findById(id).map(prod -> new ProductDTO(prod))
+                .orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
     public void insert(Product product) {
-        repo.save(product);
+        repository.save(product);
     }
     public ProductDTO update(Long id, Product product) {
-       return repo.findById(id)
+       return repository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(product.getName());
                     recordFound.setPrice(product.getPrice());
                     recordFound.setQuantity(product.getQuantity());
                     recordFound.setDescription(product.getDescription());
-                    return repo.save(recordFound);
+                    return repository.save(recordFound);
                 })
                .map(prod -> new ProductDTO(prod))
                .orElseThrow(() -> new ObjectNotFoundException(id));
     }
     public void delete(Long id) {
         try{
-            repo.delete(repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(id)));
+            repository.delete(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id)));
         }
         catch (DataIntegrityViolationException e){
             throw new DatabaseException(e.getMessage());

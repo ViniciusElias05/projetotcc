@@ -26,8 +26,7 @@ public class ProductController {
     @GetMapping(value="/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public ProductDTO findById(@PathVariable Long id) {
-            ProductDTO productDTO = new ProductDTO(service.findById(id));
-            return productDTO;
+            return service.findById(id);
     }
 
     @PostMapping
