@@ -1,8 +1,7 @@
 package com.viniciuselias.projetotcc.model.entities;
 
 import com.viniciuselias.projetotcc.model.dto.CategoryDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter @Setter
@@ -12,6 +11,8 @@ import lombok.*;
 public class Category {
 
     @Setter(AccessLevel.PRIVATE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
