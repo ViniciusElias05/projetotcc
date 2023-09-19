@@ -1,9 +1,8 @@
 package com.viniciuselias.projetotcc.controller;
 
 import com.viniciuselias.projetotcc.model.dto.ProductDTO;
-import com.viniciuselias.projetotcc.model.entity.Product;
+import com.viniciuselias.projetotcc.model.entities.Product;
 import com.viniciuselias.projetotcc.model.service.ProductService;
-import com.viniciuselias.projetotcc.model.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +24,15 @@ public class ProductController {
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-            Product product= service.findById(id);
-            return ResponseEntity.ok().body(new ProductDTO(product));
-
-
+    @ResponseStatus(code = HttpStatus.OK)
+    public ProductDTO findById(@PathVariable Long id) {
+            ProductDTO productDTO = new ProductDTO(service.findById(id));
+            return productDTO;
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody ProductDTO productDTO) {
-        Product product = new Product(productDTO);
-        service.insert(product);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void insert(@RequestBody ProductDTO productDTO) {
+        service.insert(new Product(productDTO));
     }
 }
