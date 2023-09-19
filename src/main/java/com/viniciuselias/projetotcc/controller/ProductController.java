@@ -35,4 +35,10 @@ public class ProductController {
     public void insert(@RequestBody ProductDTO productDTO) {
         service.insert(new Product(productDTO));
     }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public ProductDTO update(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        return service.update(id, new Product(productDTO));
+    }
 }
