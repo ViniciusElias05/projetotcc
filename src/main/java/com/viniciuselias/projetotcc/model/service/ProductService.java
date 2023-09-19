@@ -3,8 +3,10 @@ package com.viniciuselias.projetotcc.model.service;
 import com.viniciuselias.projetotcc.model.dto.ProductDTO;
 import com.viniciuselias.projetotcc.model.entities.Product;
 import com.viniciuselias.projetotcc.model.repositories.ProductRepository;
+import com.viniciuselias.projetotcc.model.service.exceptions.DatabaseException;
 import com.viniciuselias.projetotcc.model.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +40,12 @@ public class ProductService {
                .map(prod -> new ProductDTO(prod))
                .orElseThrow(() -> new ObjectNotFoundException(id));
     }
-
+    public void delete(Long id) {
+        try{
+            repo.delete(repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(id)));
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DatabaseException(e.getMessage());
+        }
+    }
 }

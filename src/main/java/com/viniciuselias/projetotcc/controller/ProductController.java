@@ -41,4 +41,10 @@ public class ProductController {
     public ProductDTO update(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         return service.update(id, new Product(productDTO));
     }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
 }
