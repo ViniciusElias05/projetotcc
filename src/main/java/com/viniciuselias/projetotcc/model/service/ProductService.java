@@ -18,8 +18,8 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
-    public List<Product> findAll() {
-        return repository.findAll();
+    public List<ProductDTO> findAll() {
+        return repository.findAll().stream().map(ProductDTO::new).toList();
     }
 
     public ProductDTO findById(Long id) {
@@ -27,16 +27,17 @@ public class ProductService {
                 .orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
-    public void insert(Product product) {
-        repository.save(product);
+    public void insert(ProductDTO productDTO) {
+        repository.save(new Product(productDTO));
     }
-    public ProductDTO update(Long id, Product product) {
+    public ProductDTO update(Long id, ProductDTO productDTO) {
        return repository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setName(product.getName());
-                    recordFound.setPrice(product.getPrice());
-                    recordFound.setQuantity(product.getQuantity());
-                    recordFound.setDescription(product.getDescription());
+                    recordFound.setName(productDTO.name());
+                    recordFound.setPrice(productDTO.price());
+                    recordFound.setQuantity(productDTO.quantity());
+                    recordFound.setDescription(productDTO.description());
+                    recordFound.setCategories(productDTO.categories());
                     return repository.save(recordFound);
                 })
                .map(prod -> new ProductDTO(prod))

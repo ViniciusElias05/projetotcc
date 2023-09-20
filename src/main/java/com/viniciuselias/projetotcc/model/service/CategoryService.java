@@ -26,13 +26,13 @@ public class CategoryService {
                 .orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
-    public void insert(Category category) {
-        repository.save(category);
+    public void insert(CategoryDTO categoryDTO) {
+        repository.save(new Category(categoryDTO));
     }
-    public CategoryDTO update(Long id, Category category) {
+    public CategoryDTO update(Long id, CategoryDTO categoryDTO) {
        return repository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setName(category.getName());
+                    recordFound.setName(categoryDTO.name());
                     return repository.save(recordFound);
                 })
                .map(cat -> new CategoryDTO(cat))

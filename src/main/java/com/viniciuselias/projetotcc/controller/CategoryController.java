@@ -31,13 +31,13 @@ public class CategoryController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public void insert(@RequestBody CategoryDTO categoryDTO) {
-        service.insert(new Category(categoryDTO));
+        service.insert(categoryDTO);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public CategoryDTO update(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO) {
-        return service.update(id, new Category(categoryDTO));
+        return service.update(id, categoryDTO);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -39,6 +39,7 @@ public class Product implements Serializable {
         this.price = productDTO.price();
         this.quantity = productDTO.quantity();
         this.description = productDTO.description();
+        this.categories = productDTO.categories();
     }
 
     public Product(Long id, String name, Double price, Integer quantity, String description) {
