@@ -10,8 +10,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_product")
+@NoArgsConstructor
 @Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
 @ToString
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -30,7 +30,10 @@ public class Product implements Serializable {
     @JoinTable(name = "tb_product_category",
             joinColumns = @JoinColumn(name = "product_fk"),
             inverseJoinColumns = @JoinColumn(name = "category_fk"))
-    private Set<Category> categories = new HashSet<>();
+    private Set<Category> categories = new HashSet();
+
+    @OneToMany(mappedBy = "product")
+    private Set<OrderItem> orderItems = new HashSet();
 
     public Product(ProductDTO productDTO) {
 
