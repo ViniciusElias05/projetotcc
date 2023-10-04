@@ -29,8 +29,8 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void insert(@RequestBody OrderDTO orderDTO) {
-        service.insert(orderDTO);
+    public OrderDTO insert(@RequestBody OrderDTO orderDTO) {
+        return service.insert(orderDTO);
     }
 
     @PutMapping(value = "/{id}")

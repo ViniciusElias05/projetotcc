@@ -30,8 +30,8 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void insert(@RequestBody CategoryDTO categoryDTO) {
-        service.insert(categoryDTO);
+    public CategoryDTO insert(@RequestBody CategoryDTO categoryDTO) {
+        return service.insert(categoryDTO);
     }
 
     @PutMapping(value = "/{id}")

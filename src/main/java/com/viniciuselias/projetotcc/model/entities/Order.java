@@ -1,11 +1,10 @@
 package com.viniciuselias.projetotcc.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.viniciuselias.projetotcc.model.dto.OrderDTO;
 import com.viniciuselias.projetotcc.model.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -38,7 +37,21 @@ public class Order implements Serializable {
         this.moment = moment;
     }
 
-    @Transactional
+    public Order(OrderDTO orderDTO) {
+        this.orderStatus = orderDTO.orderStatus();
+        this.moment = orderDTO.moment();
+        this.orderItems = orderDTO.orderItems();
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        for(OrderItem item : orderItems) {
+            if(orderStatus == OrderStatus.CANCELED && this.orderStatus != OrderStatus.CANCELED){
+                item.getProduct().includeProductInStock(item.getQuantity());
+            }
+        }
+        this.orderStatus = orderStatus;
+    }
+
     public Double getTotal() {
         double total = 0.0;
 
@@ -48,4 +61,5 @@ public class Order implements Serializable {
 
         return total;
     }
+
 }

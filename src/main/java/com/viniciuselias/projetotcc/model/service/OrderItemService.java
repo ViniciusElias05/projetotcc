@@ -1,9 +1,8 @@
 package com.viniciuselias.projetotcc.model.service;
 
-import com.viniciuselias.projetotcc.model.dto.OrderDTO;
-import com.viniciuselias.projetotcc.model.entities.Order;
+import com.viniciuselias.projetotcc.model.dto.OrderItemDTO;
+import com.viniciuselias.projetotcc.model.entities.OrderItem;
 import com.viniciuselias.projetotcc.model.repositories.OrderItemRepository;
-import com.viniciuselias.projetotcc.model.repositories.OrderRepository;
 import com.viniciuselias.projetotcc.model.service.exceptions.DatabaseException;
 import com.viniciuselias.projetotcc.model.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,35 +13,34 @@ import java.util.List;
 
 
 @Service
-public class OrderService {
-
+public class OrderItemService {
+    
     @Autowired
-    private OrderRepository repository;
-    @Autowired
-    private OrderItemRepository OrderItemRepository;
+    private OrderItemRepository repository;
 
-    public List<OrderDTO> findAll() {
-        return repository.findAll().stream().map(OrderDTO::new).toList();
+    public List<OrderItemDTO> findAll() {
+        return repository.findAll().stream().map(OrderItemDTO::new).toList();
     }
 
-    public OrderDTO findById(Long id) {
-        return repository.findById(id).map(prod -> new OrderDTO(prod))
+    public OrderItemDTO findById(Long id) {
+        return repository.findById(id).map(prod -> new OrderItemDTO(prod))
                 .orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
-    public OrderDTO insert(OrderDTO orderDTO) {
-        Order order = repository.save(new Order(orderDTO));
-        return new OrderDTO(order);
+    public OrderItemDTO insert(OrderItemDTO orderItemDTO) {
+        OrderItem orderItem = repository.save(new OrderItem(orderItemDTO));
+        return new OrderItemDTO(orderItem);
     }
-    public OrderDTO update(Long id, OrderDTO orderDTO) {
+    public OrderItemDTO update(Long id, OrderItemDTO orderItemDTO) {
        return repository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setMoment(orderDTO.moment());
-                    recordFound.setOrderStatus(orderDTO.orderStatus());
-                    recordFound.setOrderItems(orderDTO.orderItems());
+                    recordFound.setQuantity(orderItemDTO.quantity());
+                    recordFound.setPrice(orderItemDTO.price());
+                    recordFound.setProduct(orderItemDTO.product());
+                    recordFound.setOrder(orderItemDTO.order());
                     return repository.save(recordFound);
                 })
-               .map(prod -> new OrderDTO(prod))
+               .map(prod -> new OrderItemDTO(prod))
                .orElseThrow(() -> new ObjectNotFoundException(id));
     }
     public void delete(Long id) {

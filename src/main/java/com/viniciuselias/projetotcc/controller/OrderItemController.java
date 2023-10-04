@@ -1,8 +1,7 @@
 package com.viniciuselias.projetotcc.controller;
 
-import com.viniciuselias.projetotcc.model.dto.ProductDTO;
-import com.viniciuselias.projetotcc.model.entities.Product;
-import com.viniciuselias.projetotcc.model.service.ProductService;
+import com.viniciuselias.projetotcc.model.dto.OrderItemDTO;
+import com.viniciuselias.projetotcc.model.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,34 +9,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductController {
+@RequestMapping(value = "/orderitems")
+public class OrderItemController {
 
     @Autowired
-    private ProductService service;
+    private OrderItemService service;
 
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public List<ProductDTO> findAll() {
+    public List<OrderItemDTO> findAll() {
         return service.findAll();
     }
 
     @GetMapping(value="/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public ProductDTO findById(@PathVariable Long id) {
+    public OrderItemDTO findById(@PathVariable Long id) {
             return service.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ProductDTO insert(@RequestBody ProductDTO productDTO) {
-        return service.insert(productDTO);
+    public OrderItemDTO insert(@RequestBody OrderItemDTO orderItemDTO) {
+        return service.insert(orderItemDTO);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public ProductDTO update(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        return service.update(id, productDTO);
+    public OrderItemDTO update(@PathVariable Long id, @RequestBody OrderItemDTO orderItemDTO) {
+        return service.update(id, orderItemDTO);
     }
 
     @DeleteMapping(value = "/{id}")

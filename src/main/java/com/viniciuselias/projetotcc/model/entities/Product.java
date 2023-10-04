@@ -1,5 +1,6 @@
 package com.viniciuselias.projetotcc.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viniciuselias.projetotcc.model.dto.ProductDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +33,7 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_fk"))
     private Set<Category> categories = new HashSet();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orderItems = new HashSet();
 
@@ -51,5 +53,13 @@ public class Product implements Serializable {
         this.price = price;
         this.quantity = quantity;
         this.description = description;
+    }
+
+    public void includeProductInStock(Integer quantity){
+        this.quantity += quantity;
+    }
+
+    public void removeProductInStock(Integer quantity){
+        this.quantity -= quantity;
     }
 }

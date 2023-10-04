@@ -27,8 +27,9 @@ public class ProductService {
                 .orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
-    public void insert(ProductDTO productDTO) {
-        repository.save(new Product(productDTO));
+    public ProductDTO insert(ProductDTO productDTO) {
+        Product product = repository.save(new Product(productDTO));
+        return new ProductDTO(product);
     }
     public ProductDTO update(Long id, ProductDTO productDTO) {
        return repository.findById(id)

@@ -1,12 +1,9 @@
 package com.viniciuselias.projetotcc.model.dto;
 
-import com.viniciuselias.projetotcc.model.entities.Category;
 import com.viniciuselias.projetotcc.model.entities.Order;
 import com.viniciuselias.projetotcc.model.entities.OrderItem;
-import com.viniciuselias.projetotcc.model.entities.Product;
 import com.viniciuselias.projetotcc.model.entities.enums.OrderStatus;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 

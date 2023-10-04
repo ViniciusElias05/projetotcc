@@ -54,22 +54,21 @@ public class Instantiation implements CommandLineRunner {
         p2.getCategories().add(c1);
         p3.getCategories().add(c1);
 
-        productRepository.saveAll(Arrays.asList(p1, p2, p3));
-
         Order o1 = new Order(OrderStatus.WAITING_PAYMENT, LocalDateTime.now());
         Order o2 = new Order(OrderStatus.PAID, LocalDateTime.now());
         Order o3 = new Order(OrderStatus.CANCELED, LocalDateTime.now());
 
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 
-        OrderItem oi1 = new OrderItem(null, 10, p1.getPrice(), p1, o1);
-        OrderItem oi2 = new OrderItem(null, 5, p2.getPrice(), p2, o2);
-        OrderItem oi3 = new OrderItem(null, 3, p3.getPrice(), p3, o3);
-        OrderItem oi4 = new OrderItem(null, 2, p3.getPrice(), p3, o1);
+        OrderItem oi1 = new OrderItem(null, 10, p1, o1);
+        OrderItem oi2 = new OrderItem(null, 5, p2, o2);
+        OrderItem oi3 = new OrderItem(null, 3, p3, o3);
+        OrderItem oi4 = new OrderItem(null, 2, p3, o1);
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+        productRepository.saveAll(Arrays.asList(p1, p2, p3));
 
-        Order order = orderRepository.findById(1L).orElseThrow();
-        System.out.println("R$ " + order.getTotal());
+
+
     }
 }

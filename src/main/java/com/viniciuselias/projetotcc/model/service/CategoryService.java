@@ -26,8 +26,9 @@ public class CategoryService {
                 .orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
-    public void insert(CategoryDTO categoryDTO) {
-        repository.save(new Category(categoryDTO));
+    public CategoryDTO insert(CategoryDTO categoryDTO) {
+        Category category = repository.save(new Category(categoryDTO));
+        return new CategoryDTO(category);
     }
     public CategoryDTO update(Long id, CategoryDTO categoryDTO) {
        return repository.findById(id)
