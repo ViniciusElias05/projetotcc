@@ -1,6 +1,7 @@
 package com.viniciuselias.projetotcc.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viniciuselias.projetotcc.model.dto.OrderDTO;
 import com.viniciuselias.projetotcc.model.entities.enums.OrderStatus;
 import jakarta.persistence.*;
@@ -29,12 +30,18 @@ public class Order implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT-3")
     private LocalDateTime moment;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "client_id")
+    private Client client;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private Set<OrderItem> orderItems = new HashSet();
 
-    public Order(OrderStatus orderStatus, LocalDateTime moment) {
+    public Order(OrderStatus orderStatus, LocalDateTime moment, Client client) {
         this.orderStatus = orderStatus;
         this.moment = moment;
+        this.client = client;
     }
 
     public Order(OrderDTO orderDTO) {
@@ -55,8 +62,10 @@ public class Order implements Serializable {
     public Double getTotal() {
         double total = 0.0;
 
-        for(OrderItem i: orderItems) {
-            total += i.getSubTotal();
+        if(orderItems != null){
+            for(OrderItem i: orderItems) {
+                total += i.getSubTotal();
+            }
         }
 
         return total;

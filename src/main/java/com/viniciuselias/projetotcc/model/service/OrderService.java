@@ -40,6 +40,7 @@ public class OrderService {
                     recordFound.setMoment(orderDTO.moment());
                     recordFound.setOrderStatus(orderDTO.orderStatus());
                     recordFound.setOrderItems(orderDTO.orderItems());
+                    recordFound.setClient(orderDTO.client());
                     return repository.save(recordFound);
                 })
                .map(prod -> new OrderDTO(prod))
